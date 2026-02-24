@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>📚 Sistema de Gestión de Biblioteca (Financiero)</title>
+
+    <link
+      rel="stylesheet"
+      href="styles.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <!-- Header -->
+      <header class="header">
+        <h1>📚 Biblioteca FNY Financial Solutions S.A.S </h1>
+        <p class="subtitle">Sistema de Gestión de Biblioteca Financiera</p>
+      </header>
+
+      <!-- Navigation Tabs -->
+      <nav class="tabs">
+        <button
+          class="tab-btn active"
+          data-tab="catalog">
+          📖 Catálogo
+        </button>
+        <button
+          class="tab-btn"
+          data-tab="members">
+          👥 Miembros
+        </button>
+        <button
+          class="tab-btn"
+          data-tab="loans">
+          🔄 Préstamos
+        </button>
+        <button
+          class="tab-btn"
+          data-tab="stats">
+          📊 Estadísticas
+        </button>
+      </nav>
+
+      <!-- Tab Content -->
+      <main class="tab-content">
+        <!-- Catalog Tab -->
+        <section
+          id="catalog"
+          class="tab-panel active">
+          <div class="panel-header">
+            <h2>📖 Catálogo de la Biblioteca</h2>
+            <div class="actions">
+              <input
+                type="text"
+                id="search-input"
+                placeholder="Buscar por título o autor..." />
+              <select id="filter-type">
+                <option value="all">Todos los tipos</option>
+                <option value="Book">Libros</option>
+                <option value="Magazine">Revistas</option>
+                <option value="DVD">DVDs</option>
+                <option value="AudioBook">Audiolibros</option>
+              </select>
+              <select id="filter-availability">
+                <option value="all">Todos</option>
+                <option value="available">Disponibles</option>
+                <option value="borrowed">Prestados</option>
+              </select>
+              <button
+                id="add-item-btn"
+                class="btn btn-primary">
+                + Agregar Item
+              </button>
+            </div>
+          </div>
+          <div
+            id="catalog-list"
+            class="items-grid">
+            <!-- Items will be rendered here -->
+          </div>
+        </section>
+
+        <!-- Members Tab -->
+        <section
+          id="members"
+          class="tab-panel">
+          <div class="panel-header">
+            <h2>👥 Miembros de la Biblioteca</h2>
+            <div class="actions">
+              <input
+                type="text"
+                id="member-search"
+                placeholder="Buscar miembro..." />
+              <button
+                id="add-member-btn"
+                class="btn btn-primary">
+                + Registrar Miembro
+              </button>
+            </div>
+          </div>
+          <div
+            id="members-list"
+            class="members-grid">
+            <!-- Members will be rendered here -->
+          </div>
+        </section>
+
+        <!-- Loans Tab -->
+        <section
+          id="loans"
+          class="tab-panel">
+          <div class="panel-header">
+            <h2>🔄 Gestión de Préstamos</h2>
+            <div class="actions">
+              <button
+                id="new-loan-btn"
+                class="btn btn-primary">
+                + Nuevo Préstamo
+              </button>
+              <button
+                id="show-overdue-btn"
+                class="btn btn-warning">
+                ⚠️ Ver Vencidos
+              </button>
+            </div>
+          </div>
+          <div class="loans-container">
+            <div class="loans-section">
+              <h3>Préstamos Activos</h3>
+              <div
+                id="active-loans"
+                class="loans-list">
+                <!-- Active loans will be rendered here -->
+              </div>
+            </div>
+            <div class="loans-section">
+              <h3>Historial de Préstamos</h3>
+              <div
+                id="loan-history"
+                class="loans-list">
+                <!-- Loan history will be rendered here -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Stats Tab -->
+        <section
+          id="stats"
+          class="tab-panel">
+          <div class="panel-header">
+            <h2>📊 Estadísticas de la Biblioteca</h2>
+            <button
+              id="refresh-stats-btn"
+              class="btn btn-secondary">
+              🔄 Actualizar
+            </button>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">📚</div>
+              <div
+                class="stat-value"
+                id="total-items">
+                0
+              </div>
+              <div class="stat-label">Total Items</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">✅</div>
+              <div
+                class="stat-value"
+                id="available-items">
+                0
+              </div>
+              <div class="stat-label">Disponibles</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">👥</div>
+              <div
+                class="stat-value"
+                id="total-members">
+                0
+              </div>
+              <div class="stat-label">Miembros</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">🔄</div>
+              <div
+                class="stat-value"
+                id="active-loans-count">
+                0
+              </div>
+              <div class="stat-label">Préstamos Activos</div>
+            </div>
+            <div class="stat-card warning">
+              <div class="stat-icon">⚠️</div>
+              <div
+                class="stat-value"
+                id="overdue-loans">
+                0
+              </div>
+              <div class="stat-label">Vencidos</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">💰</div>
+              <div
+                class="stat-value"
+                id="total-fines">
+                $0
+              </div>
+              <div class="stat-label">Multas Pendientes</div>
+            </div>
+          </div>
+          <div class="stats-breakdown">
+            <h3>Desglose por Tipo</h3>
+            <div
+              id="type-breakdown"
+              class="breakdown-grid">
+              <!-- Type breakdown will be rendered here -->
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Modals -->
+      <!-- Add Item Modal -->
+      <div
+        id="add-item-modal"
+        class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Agregar Nuevo Item</h3>
+            <button class="close-btn">&times;</button>
+          </div>
+          <form id="add-item-form">
+            <div class="form-group">
+              <label for="item-type">Tipo de Item</label>
+              <select
+                id="item-type"
+                required>
+                <option value="">Seleccionar tipo...</option>
+                <option value="Book">Libro</option>
+                <option value="Magazine">Revista</option>
+                <option value="DVD">DVD</option>
+                <option value="AudioBook">Audiolibro</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="item-title">Título</label>
+              <input
+                type="text"
+                id="item-title"
+                required />
+            </div>
+            <div class="form-group">
+              <label for="item-location">Ubicación</label>
+              <input
+                type="text"
+                id="item-location"
+                placeholder="Ej: Estante A-12"
+                required />
+            </div>
+            <!-- Dynamic fields based on type -->
+            <div id="dynamic-fields"></div>
+            <div class="form-actions">
+              <button
+                type="button"
+                class="btn btn-secondary cancel-btn">
+                Cancelar
+              </button>
+              <button
+                type="submit"
+                class="btn btn-primary">
+                Agregar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Add Member Modal -->
+      <div
+        id="add-member-modal"
+        class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Registrar Nuevo Miembro</h3>
+            <button class="close-btn">&times;</button>
+          </div>
+          <form id="add-member-form">
+            <div class="form-group">
+              <label for="member-name">Nombre Completo</label>
+              <input
+                type="text"
+                id="member-name"
+                required />
+            </div>
+            <div class="form-group">
+              <label for="member-email">Email</label>
+              <input
+                type="email"
+                id="member-email"
+                required />
+            </div>
+            <div class="form-group">
+              <label for="membership-type">Tipo de Membresía</label>
+              <select
+                id="membership-type"
+                required>
+                <option value="standard">Estándar</option>
+                <option value="premium">Premium</option>
+                <option value="student">Estudiante</option>
+              </select>
+            </div>
+            <div class="form-actions">
+              <button
+                type="button"
+                class="btn btn-secondary cancel-btn">
+                Cancelar
+              </button>
+              <button
+                type="submit"
+                class="btn btn-primary">
+                Registrar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- New Loan Modal -->
+      <div
+        id="new-loan-modal"
+        class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Nuevo Préstamo</h3>
+            <button class="close-btn">&times;</button>
+          </div>
+          <form id="new-loan-form">
+            <div class="form-group">
+              <label for="loan-member">Miembro</label>
+              <select
+                id="loan-member"
+                required>
+                <option value="">Seleccionar miembro...</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="loan-item">Item</label>
+              <select
+                id="loan-item"
+                required>
+                <option value="">Seleccionar item disponible...</option>
+              </select>
+            </div>
+            <div class="loan-info">
+              <p>
+                <strong>Días de préstamo:</strong> <span id="loan-days">-</span>
+              </p>
+              <p>
+                <strong>Fecha de devolución:</strong>
+                <span id="due-date">-</span>
+              </p>
+            </div>
+            <div class="form-actions">
+              <button
+                type="button"
+                class="btn btn-secondary cancel-btn">
+                Cancelar
+              </button>
+              <button
+                type="submit"
+                class="btn btn-primary">
+                Realizar Préstamo
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Item Details Modal -->
+      <div
+        id="item-details-modal"
+        class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Detalles del Item</h3>
+            <button class="close-btn">&times;</button>
+          </div>
+          <div id="item-details-content">
+            <!-- Item details will be rendered here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Member Details Modal -->
+      <div
+        id="member-details-modal"
+        class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Detalles del Miembro</h3>
+            <button class="close-btn">&times;</button>
+          </div>
+          <div id="member-details-content">
+            <!-- Member details will be rendered here -->
+          </div>
+        </div>
+      </div>
+    </div>
+<script src="script.js"></script>
+
+  </body>
+</html>
